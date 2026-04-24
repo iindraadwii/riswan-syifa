@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <title>Riswan & Syifa</title>
+  
+  <style>
+    /* KUNCI MUTLAK PADA PEMBUNGKUS LUAR */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      position: fixed; /* Ini adalah kunci utamanya agar tidak terdorong address bar HP */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden; /* Biar ga ada scrollbar */
+      background-color: #0d1117; /* Warna background gelap biar pas loading ga silau */
+      overscroll-behavior-y: none; /* Mencegah layar HP tertarik-tarik (pull-to-refresh) */
+    }
+
+    iframe {
+      border: none;
+      width: 100%; /* Menggunakan % mengikuti body, jangan gunakan vw */
+      height: 100%; /* Menggunakan % mengikuti body, jangan gunakan vh */
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Link Apps Script Terbaru Anda -->
+  <iframe src="https://script.google.com/macros/s/AKfycbw9RO0kG6OhnISdXdIeoAh8npoOeyz5ZKv0hyLqJe2LK48668i2cq3377lAq-fzjEnR/exec" allow="autoplay; encrypted-media; clipboard-read; clipboard-write; fullscreen"></iframe>
+
+  <!-- SCRIPT ANTI INSPECT & KLIK KANAN -->
+  <script>
+    // Mematikan Klik Kanan
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Mematikan Shortcut Keyboard untuk Developer Tools
+    document.onkeydown = function(e) {
+      // F12
+      if(e.keyCode == 123) {
+        return false;
+      }
+      // Ctrl+Shift+I (Inspect)
+      if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        return false;
+      }
+      // Ctrl+Shift+C (Inspect Element)
+      if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+        return false;
+      }
+      // Ctrl+Shift+J (Console)
+      if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        return false;
+      }
+      // Ctrl+U (View Source)
+      if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+      }
+    };
+  </script>
+
+  <!-- [INDOBOT FIX] SCRIPT PENERUS NAMA TAMU KE DALAM IFRAME -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. Ambil elemen iframe
+      const iframe = document.querySelector("iframe");
+      const currentSrc = iframe.src;
+      
+      // 2. Baca URL yang diketik pengunjung (misal: /#Indra atau /?to=Indra)
+      const hash = window.location.hash;
+      const search = window.location.search;
+
+      // 3. Masukkan ke dalam iFrame
+      if (hash) {
+        // Ambil nama tanpa tanda pagar '#'
+        const guestName = hash.substring(1); 
+        
+        // [TRIK JITU]: Kita convert '#' menjadi '?to=' saat dilempar ke iFrame
+        // Ini memastikan Google Apps Script tidak menghilangkan datanya saat proses muat ulang
+        iframe.src = currentSrc + "?to=" + guestName;
+        
+      } else if (search) {
+        // Jika pengunjung menggunakan format /?to=Indra
+        iframe.src = currentSrc + search;
+      }
+    });
+  </script>
+
+</body>
+</html>
